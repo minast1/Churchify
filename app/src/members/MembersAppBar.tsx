@@ -9,10 +9,12 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Logout from "@mui/icons-material/Logout";
+import ForumIcon from "@mui/icons-material/Forum";
+import { Link } from "remix";
+import HomeIcon from "@mui/icons-material/Home";
 
 export default function MembersAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -78,15 +80,21 @@ export default function MembersAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      <MenuItem component={Link} to="/members/">
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <HomeIcon />
+        </IconButton>
+        <p>PCU Dashboard</p>
+      </MenuItem>
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
-            <MailIcon />
+            <ForumIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <p>ChatRoom</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem component={Link} to="/members/notifications">
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
@@ -115,7 +123,7 @@ export default function MembersAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             size="large"
@@ -131,22 +139,31 @@ export default function MembersAppBar() {
             noWrap
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
-          >
-            Professional Christian Union
-          </Typography>
+          ></Typography>
 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <IconButton
+              size="large"
+              component={Link}
+              to="/members/"
+              aria-label="show 4 new mails"
+              color="inherit"
+            >
+              <HomeIcon />
+            </IconButton>
             <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
             >
               <Badge badgeContent={4} color="error">
-                <MailIcon />
+                <ForumIcon />
               </Badge>
             </IconButton>
             <IconButton
+              component={Link}
+              to="/members/notifications"
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
