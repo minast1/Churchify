@@ -59,7 +59,6 @@ export default function MyEditor() {
     // const plainText = event.getCurrentContent().getPlainText(); // for plain text
     const rteContent = convertToRaw(event.getCurrentContent()); // for rte content with text formating
     rteContent && setValue(JSON.stringify(rteContent.blocks.at(0)?.text));
-    console.log(value);
   };
   return (
     <ThemeProvider theme={defaultTheme}>

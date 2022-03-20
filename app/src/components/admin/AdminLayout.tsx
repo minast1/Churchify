@@ -1,7 +1,6 @@
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import AdminAppBar from "./AdminAppBar";
 
@@ -18,7 +17,7 @@ export default function AdminDashboardLayout({
     <React.Fragment>
       <CssBaseline />
       <AdminAppBar />
-      <Toolbar id="back-to-top-anchor" />
+
       <Container maxWidth={false} disableGutters>
         <Box
           component="main"
@@ -30,6 +29,16 @@ export default function AdminDashboardLayout({
           }}
         >
           {children}
+          <Box
+            sx={{
+              mt: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            Footer Area
+          </Box>
         </Box>
       </Container>
     </React.Fragment>

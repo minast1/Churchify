@@ -9,22 +9,28 @@ import Typography from "@mui/material/Typography";
 import MyEditor from "~/src/components/Editor";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-
-//import { useMediaQuery, useTheme } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import { Denomination } from "@prisma/client";
+import { categories } from "~/src/constants";
+import { LoaderFunction } from "remix";
+import { db } from "~/lib/db.server";
+import AnnouncementTable from "~/src/components/admin/AnnouncementTable";
 
 const AdminIndexRoute = () => {
-  //const theme = useTheme();
-  /*const mobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
-    const [editorState, setEditorState] = React.useState(
-      MUIEditorState.createEmpty()
-    );
-    const onChange = (newState) => {
-      setEditorState(newState);
-    };*/
+  const theme = useTheme();
+  const mobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const [category, setCategory] = React.useState<Denomination>("GENERAL");
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCategory(event.target.value as Denomination);
+  };
+
   const ariaLabel = { "aria-label": "description" };
   return (
     <Container maxWidth="lg" sx={{ mt: 5, mb: 4 }}>
-      <Card sx={{ mb: 5, height: 580 }}>
+      <Card sx={{ mb: 5, height: mobileScreen ? 670 : 590 }}>
         <CardHeader title="Create New Announcement" />
         <CardContent
           sx={{
@@ -34,6 +40,23 @@ const AdminIndexRoute = () => {
         >
           <MyEditor />
           <Box sx={{ mt: 3 }}>
+            <TextField
+              id="outlined-select-currency"
+              select
+              size="small"
+              label="Category"
+              value={category}
+              onChange={handleChange}
+              helperText="Please select Announcement Category"
+            >
+              {categories.map((option) => (
+                <MenuItem key={option.id} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+          <Box sx={{ mt: 2 }}>
             <Input
               type="file"
               inputProps={ariaLabel}
@@ -70,10 +93,37 @@ const AdminIndexRoute = () => {
           subheader="Lectures Conducted 67"
         />
 
-        <CardContent sx={{ borderTop: "1px solid lightgray" }}></CardContent>
+        <CardContent sx={{ borderTop: "1px solid lightgray" }}>
+          <AnnouncementTable />
+        </CardContent>
       </Card>
     </Container>
   );
 };
 
 export default AdminIndexRoute;
+
+export const loader: LoaderFunction = async () => {
+  const data = await db.announcement.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      creator: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+  const formattedData = data.map((item) => {
+    return {
+      id: item.id,
+      name: item.creator.name,
+      category: item.category,
+      createdAt: item.createdAt,
+    };
+  });
+
+  return formattedData;
+};
