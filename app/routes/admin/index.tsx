@@ -4,9 +4,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Input from "@mui/material/Input";
 import Typography from "@mui/material/Typography";
-import MyEditor from "~/src/components/Editor";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import { useMediaQuery, useTheme } from "@mui/material";
@@ -17,20 +15,32 @@ import { categories } from "~/src/constants";
 import { LoaderFunction } from "remix";
 import { db } from "~/lib/db.server";
 import AnnouncementTable from "~/src/components/admin/AnnouncementTable";
+import { ClientOnly } from "remix-utils";
+import CustomEditor from "~/components/Editor.client";
+import CircularProgress from "@mui/material/CircularProgress";
+
+export function links() {
+  return [
+    {
+      rel: "stylesheet",
+      href: "https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css",
+    },
+  ];
+}
 
 const AdminIndexRoute = () => {
   const theme = useTheme();
   const mobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [category, setCategory] = React.useState<Denomination>("GENERAL");
+  const [image, setImage] = React.useState<File | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategory(event.target.value as Denomination);
   };
 
-  const ariaLabel = { "aria-label": "description" };
   return (
     <Container maxWidth="lg" sx={{ mt: 5, mb: 4 }}>
-      <Card sx={{ mb: 5, height: mobileScreen ? 670 : 590 }}>
+      <Card sx={{ mb: 5 /*height: mobileScreen ? 670 : 590 */ }}>
         <CardHeader title="Create New Announcement" />
         <CardContent
           sx={{
@@ -38,7 +48,21 @@ const AdminIndexRoute = () => {
             borderBottom: "1px solid lightgray",
           }}
         >
-          <MyEditor />
+          <ClientOnly
+            fallback={
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <CircularProgress color="primary" />
+              </Box>
+            }
+          >
+            {() => <CustomEditor />}
+          </ClientOnly>
           <Box sx={{ mt: 3 }}>
             <TextField
               id="outlined-select-currency"
@@ -56,13 +80,6 @@ const AdminIndexRoute = () => {
               ))}
             </TextField>
           </Box>
-          <Box sx={{ mt: 2 }}>
-            <Input
-              type="file"
-              inputProps={ariaLabel}
-              placeholder="Add Image to Announcement"
-            />
-          </Box>
         </CardContent>
         <CardActions
           sx={{
@@ -71,12 +88,7 @@ const AdminIndexRoute = () => {
             alignItems: "center",
           }}
         >
-          <Button
-            variant="contained"
-            //size="small"
-            color="warning"
-            sx={{ mt: 1 }}
-          >
+          <Button variant="contained" color="warning" sx={{ mt: 1 }}>
             Submit Announcement
           </Button>
         </CardActions>
