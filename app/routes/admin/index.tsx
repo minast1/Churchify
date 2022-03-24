@@ -12,35 +12,34 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import { Denomination } from "@prisma/client";
 import { categories } from "~/src/constants";
-import { LoaderFunction } from "remix";
+import { ActionFunction, Form, LoaderFunction, useSubmit } from "remix";
 import { db } from "~/lib/db.server";
 import AnnouncementTable from "~/src/components/admin/AnnouncementTable";
 import { ClientOnly } from "remix-utils";
-import CustomEditor from "~/components/Editor.client";
 import CircularProgress from "@mui/material/CircularProgress";
-
-export function links() {
-  return [
-    {
-      rel: "stylesheet",
-      href: "https://unpkg.com/react-quill@1.3.3/dist/quill.snow.css",
-    },
-  ];
-}
+import Fileupload from "~/components/Fileupload.client";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
+import { useStore } from "~/lib/store";
 
 const AdminIndexRoute = () => {
   const theme = useTheme();
   const mobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [category, setCategory] = React.useState<Denomination>("GENERAL");
-  const [image, setImage] = React.useState<File | null>(null);
-
+  const [announcement, setAnnouncement] = React.useState<string>("");
+  const Image = useStore((state) => state.file);
+  const submit = useSubmit();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategory(event.target.value as Denomination);
   };
 
   return (
     <Container maxWidth="lg" sx={{ mt: 5, mb: 4 }}>
-      <Card sx={{ mb: 5 /*height: mobileScreen ? 670 : 590 */ }}>
+      <Card
+        sx={{ mb: 5 /*height: mobileScreen ? 670 : 590 */ }}
+        // component={Form}
+        //method="post"
+        //encType="multipart/form-data"
+      >
         <CardHeader title="Create New Announcement" />
         <CardContent
           sx={{
@@ -48,65 +47,7 @@ const AdminIndexRoute = () => {
             borderBottom: "1px solid lightgray",
           }}
         >
-          <ClientOnly
-            fallback={
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <CircularProgress color="primary" />
-              </Box>
-            }
-          >
-            {() => <CustomEditor />}
-          </ClientOnly>
-          <Box sx={{ mt: 3 }}>
-            <TextField
-              id="outlined-select-currency"
-              select
-              size="small"
-              label="Category"
-              value={category}
-              onChange={handleChange}
-              helperText="Please select Announcement Category"
-            >
-              {categories.map((option) => (
-                <MenuItem key={option.id} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Box>
-        </CardContent>
-        <CardActions
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <Button variant="contained" color="warning" sx={{ mt: 1 }}>
-            Submit Announcement
-          </Button>
-        </CardActions>
-      </Card>
-      <Card sx={{ mb: 10 }}>
-        <CardHeader
-          title={
-            <Box display="flex" alignItems="center">
-              <Typography variant="h5" sx={{ mt: 2, mr: 1 }}>
-                Student Attendance Statistics
-              </Typography>
-            </Box>
-          }
-          subheader="Lectures Conducted 67"
-        />
-
-        <CardContent sx={{ borderTop: "1px solid lightgray" }}>
-          <AnnouncementTable />
+          Admin Login area
         </CardContent>
       </Card>
     </Container>
@@ -116,7 +57,7 @@ const AdminIndexRoute = () => {
 export default AdminIndexRoute;
 
 export const loader: LoaderFunction = async () => {
-  const data = await db.announcement.findMany({
+  /*const data = await db.announcement.findMany({
     orderBy: {
       createdAt: "desc",
     },
@@ -137,5 +78,12 @@ export const loader: LoaderFunction = async () => {
     };
   });
 
-  return formattedData;
+  return formattedData;*/
+  return null;
+};
+
+export const action: ActionFunction = async () => {
+  //const formData = await request.formData();
+  console.log("Yayyyaaaa");
+  return null;
 };

@@ -40,14 +40,24 @@ Font.whitelist = [
 ];
 Quill.register(Font, true);
 
+const imageHandler = () => {
+  const input = document.createElement("input");
+  input.setAttribute("type", "file");
+  input.setAttribute("accept", "image/*");
+  input.click();
+  input.onchange = () => console.log(input.files && input.files[0]);
+};
 // Modules object for setting up the Quill editor
 export const modules = {
   toolbar: {
     container: "#toolbar",
+    handlers: {
+      image: imageHandler,
+    },
   },
   history: {
     delay: 500,
-    maxStack: 100,
+    // maxStack: 100,
     userOnly: true,
   },
 };
@@ -114,14 +124,26 @@ const QuillToolbar = () => (
 
 const CustomEditor = () => {
   const [value, setValue] = React.useState("");
-  //console.log(value);
+
+  const reactQuill = React.useRef<ReactQuill>(null);
+  const onChangeText = () => {
+    const editor = reactQuill.current?.getEditor();
+    //const unprivilegedEditor = Quill.makeUnprivilegedEditor(editor);
+    // You may now use the unprivilegedEditor proxy methods
+    // const content = editor?.getContents().ops;
+    // console.log("unprivilegedEditor.getContent()", content);
+    // on submit, you can set state with that text binded in this.inpText
+    // setValue({text: this.inputText}
+  };
+
   return (
     <div className="text-editor">
       <QuillToolbar />
       <ReactQuill
         theme="snow"
+        ref={reactQuill}
         value={value}
-        onChange={setValue}
+        onChange={onChangeText}
         modules={modules}
         formats={formats}
         placeholder="Start typing here....."
