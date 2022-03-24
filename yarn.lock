@@ -1293,6 +1293,11 @@
     "@remix-run/node" "1.2.3"
     "@remix-run/server-runtime" "1.2.3"
 
+"@remix-validated-form/with-zod@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@remix-validated-form/with-zod/-/with-zod-2.0.1.tgz#83093578414b4fbf14841778b22facbd1e981ead"
+  integrity sha512-PerWFOeMFSd8FZRcT2kcqEnYEcmokBzuk87URZ5ij0cRtTlrGNUk7UlxYLG1e7lbPWBj+QfSSsLBrJu8PxhNeg==
+
 "@rollup/pluginutils@^4.0.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-4.2.0.tgz#a14bbd058fdbba0a5647143b16ed0d86fb60bd08"
@@ -4140,6 +4145,11 @@ jose@^2.0.5:
   dependencies:
     "@panva/asn1.js" "^1.0.0"
 
+jotai@^1.5.3:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-1.6.1.tgz#a6379d7dce159474f24963921d55ae8f6e9e8dd6"
+  integrity sha512-iNKHmpKGN31KXDqxGLsplb4HLTroYtiM7oBEQ9leyoXSEGQGUZKK5IOV4kN6fUmkBSJbwb5WnmInYOYzpjIDOw==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -4493,6 +4503,11 @@ lodash.once@^4.0.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
   integrity sha1-DdOXEhPHxW34gJd9UEyI+0cal6w=
+
+lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 long@^4.0.0:
   version "4.0.0"
@@ -5859,10 +5874,28 @@ remark-rehype@^9.0.0:
     mdast-util-to-hast "^11.0.0"
     unified "^10.0.0"
 
+remix-auth@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/remix-auth/-/remix-auth-3.2.1.tgz#6252246eef1016de2c9f426b1fd8c5a2689dfb09"
+  integrity sha512-5N5ZjKCYGjbRmMi9PQwngKuuGkBEfny0Q4iXyTrDxQhSzAbQ/+wHX+ZKGdneYWHULZJCRZbjSmyrjk/rJxGFlw==
+  dependencies:
+    remix-utils "^2.2.0"
+    uuid "^8.3.2"
+
 remix-firebase-storage-file-handler@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/remix-firebase-storage-file-handler/-/remix-firebase-storage-file-handler-1.0.0.tgz#4c5435ce3703ae26a5a11e810008da3b48368ca2"
   integrity sha512-jBBzWuNk/QTbr8Ps2gkntTnJUVp7FBapQLr3opiB7TQhWRrfWs0A+6zcHS9ybLMaI3O2aWSSNZOsyVoiArieag==
+
+remix-utils@^2.2.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/remix-utils/-/remix-utils-2.10.0.tgz#b72a16cc2d736b5ffb1f78c55e9c7abb6116585f"
+  integrity sha512-dtxxfiHpdPuZv+0c9i7erdLdLh6PNfd6YJV9kPuAWf+F113vJ4kNU0YCJDn4Kb9fkkb1RuTl+ubKj1NTXHO+0Q==
+  dependencies:
+    is-ip "^3.1.0"
+    schema-dts "^1.1.0"
+    type-fest "^2.5.2"
+    uuid "^8.3.2"
 
 remix-utils@^2.9.0:
   version "2.9.0"
@@ -5872,6 +5905,15 @@ remix-utils@^2.9.0:
     is-ip "^3.1.0"
     type-fest "^2.5.2"
     uuid "^8.3.2"
+
+remix-validated-form@^4.1.8:
+  version "4.1.8"
+  resolved "https://registry.yarnpkg.com/remix-validated-form/-/remix-validated-form-4.1.8.tgz#d4b6672c06cf88737d65f89c54545f68e7bdfe31"
+  integrity sha512-3pOcIAHnvcPutkuc3zNQMSni5ySYYvxoGFOe6x6rbNO4yRVedkcncYMzkDAbTwrK6+/nZdnkaLuYHz6uGtn9Dg==
+  dependencies:
+    jotai "^1.5.3"
+    lodash "^4.17.21"
+    tiny-invariant "^1.2.0"
 
 remix@^1.2.3:
   version "1.2.3"
@@ -6013,6 +6055,11 @@ scheduler@^0.20.2:
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
+
+schema-dts@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/schema-dts/-/schema-dts-1.1.0.tgz#33227971076ef1daa33e56a3127a8aae030e81c9"
+  integrity sha512-vdmbs/5ycj4zyKpZIDqTcy+IZi4s7c38RVAYuDmRi7zgxUT8wRWPMLzg0jr7FjdVunYu9yZ00F3+XcZTTFcTOQ==
 
 selenium-webdriver@4.0.0-rc-1:
   version "4.0.0-rc-1"
@@ -6394,6 +6441,11 @@ through@^2.3.8:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
+
+tiny-invariant@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.2.0.tgz#a1141f86b672a9148c72e978a19a73b9b94a15a9"
+  integrity sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==
 
 tiny-warning@^1.0.2:
   version "1.0.3"
@@ -6948,6 +7000,11 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zod@^3.14.2:
+  version "3.14.2"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.14.2.tgz#0b4ed79085c471adce0e7f2c0a4fbb5ddc516ba2"
+  integrity sha512-iF+wrtzz7fQfkmn60PG6XFxaWBhYYKzp2i+nv24WbLUWb2JjymdkHlzBwP0erpc78WotwP5g9AAu7Sk8GWVVNw==
 
 zustand@^3.7.1:
   version "3.7.1"

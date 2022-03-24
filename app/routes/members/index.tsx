@@ -18,7 +18,7 @@ const Index = () => {
     >
       <PageHeader title="General Announcement Area" />
 
-      <List sx={{ width: "100%", bgcolor: "white", boxShadow: 15 }}>
+      <List sx={{ width: "100%", bgcolor: "white", boxShadow: 8 }}>
         <AnnouncementCard
           postedBy="GUBS"
           view={mobileScreen}

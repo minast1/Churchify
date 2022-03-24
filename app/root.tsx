@@ -13,6 +13,7 @@ import { unstable_useEnhancedEffect as useEnhancedEffect } from "@mui/material";
 import theme from "./src/theme";
 import ClientStyleContext from "./src/ClientStyleContext";
 import Layout from "./src/Layout";
+import Container from "@mui/material/Container";
 
 interface DocumentProps {
   children: React.ReactNode;
@@ -58,11 +59,16 @@ const Document = withEmotionCache(
             content="emotion-insertion-point"
           />
         </head>
-        <body>
+        <Container
+          component="body"
+          maxWidth="xl"
+          disableGutters
+          sx={{ backgroundColor: "#63639a", minHeight: "100vh" }}
+        >
           {children}
           <Scripts />
           {process.env.NODE_ENV === "development" && <LiveReload />}
-        </body>
+        </Container>
       </html>
     );
   }

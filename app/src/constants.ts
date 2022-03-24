@@ -1,4 +1,7 @@
 import { Denomination } from "@prisma/client";
+import { z } from "zod";
+import { withZod } from "@remix-validated-form/with-zod";
+
 
 type Categories = {
     id: number
@@ -16,6 +19,37 @@ export const categories: Categories[] = [
     { id: 8, label: "NUBSCCF", value: "NUBSCCF" },
     { id: 9, label: "GENERAL", value: "GENERAL" }
 ];
+
+export const denominations = ["PAXROMANA",
+  "CASA",
+  "AGCM",
+  "PENSA",
+  "GESAM",
+  "NUPSG",
+  "NUAS",
+    "NUBSCCF"] as const
+
+export const memberSignupValidator = withZod(
+  z.object({
+    name: z.string().nonempty("* This field is required"),
+    email: z.string().nonempty("* This field is required").email({ message: "Please enter a valid email address" }),
+    password: z.string().nonempty(" * This field is required"),
+    confirm: z.string().nonempty("Please confirm the password"),
+    denomination: z.enum(denominations),
+  }).refine((data) => data.password === data.confirm, {
+    message: "Passwords don't match", 
+    path: ["confirm"]
+  })
+)
+
+export const memberLoginValidator = withZod(
+    z.object({
+        name: z.string().nonempty("* This field is required"),
+        email: z.string().nonempty("* This field is required").email({ message: "Please enter a valid email address" }),
+        password: z.string().nonempty(" * This field is required"),
+    }   
+))
+
 
 
 
