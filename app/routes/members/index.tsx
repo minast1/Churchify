@@ -12,10 +12,13 @@ const Index = () => {
   const theme = useTheme();
   const mobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <Container maxWidth={mobileScreen ? false : "md"}>
+    <Container
+      maxWidth={mobileScreen ? false : "lg"}
+      disableGutters={mobileScreen ? true : false}
+    >
       <PageHeader title="General Announcement Area" />
 
-      <List sx={{ width: "100%", bgcolor: "background.paper", boxShadow: 15 }}>
+      <List sx={{ width: "100%", bgcolor: "white", boxShadow: 15 }}>
         <AnnouncementCard
           postedBy="GUBS"
           view={mobileScreen}
@@ -43,7 +46,10 @@ const Index = () => {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          sx={{ width: "100%" }}
+          sx={{
+            width: "100%",
+            // backgroundColor: "white",
+          }}
         >
           <PaginationComponent total={30} />
         </Box>

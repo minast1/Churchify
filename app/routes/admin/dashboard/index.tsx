@@ -13,17 +13,12 @@ import MenuItem from "@mui/material/MenuItem";
 import { Denomination } from "@prisma/client";
 import { categories } from "~/src/constants";
 import { ActionFunction, LoaderFunction, useFetcher } from "remix";
-//import { db } from "~/lib/db.server";
 //import AnnouncementTable from "~/src/components/admin/AnnouncementTable";
 import { ClientOnly } from "remix-utils";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useStore } from "~/lib/store";
-//import { getStorage } from "firebase-admin/storage";
-import { bucket, app } from "~/lib/firebase";
-//import createFirebaseStorageFileHandler from "remix-firebase-storage-file-handler";
 import FileUpload from "react-material-file-upload";
 import { uploadImage } from "~/lib/handler.server";
-import { getStorage } from "firebase-admin/storage";
 
 const DashboardIndex = () => {
   const theme = useTheme();
@@ -158,9 +153,10 @@ export default DashboardIndex;
 
 export const action: ActionFunction = async ({ request }) => {
   const url = (await uploadImage(request)) as File;
+  const formData = await request.formData();
 
   //save announcement into the database with the url;
-
+  //const announcement = await db.ann;
   return null;
 };
 

@@ -10,28 +10,29 @@ const PageHeader = ({ title }: { title: string }) => {
   return (
     <Card
       elevation={5}
+      square
       sx={{
-        mb: 3,
+        //mb: 3,
         color: "white",
         background: `linear-gradient( rgba(0, 0, 0, 0.8) 100%, rgba(0, 0, 0, 0.7) 100%), url("/example2.jpg")`,
         backgroundSize: "cover",
         backgroundPosition: "center center",
-        height: mobileScreen ? 150 : 180,
+        height: mobileScreen ? 200 : 380,
       }}
     >
       <CardHeader
         title={
           <Typography
-            sx={{ fontWeight: "bold" }}
-            variant={mobileScreen ? "subtitle2" : "h6"}
+            sx={{ pt: 5, pl: 5 }}
+            variant={mobileScreen ? "subtitle2" : "h4"}
           >
             Welcome to the Professional Christian Union (PCU) Dashboard
           </Typography>
         }
         subheader={
           <Typography
-            variant={mobileScreen ? "subtitle2" : "body1"}
-            sx={{ color: "darkgray" }}
+            variant={mobileScreen ? "subtitle2" : "h5"}
+            sx={{ color: "darkgray", pl: 5 }}
           >
             {title}
           </Typography>

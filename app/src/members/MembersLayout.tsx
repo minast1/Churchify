@@ -8,7 +8,7 @@ import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Zoom from "@mui/material/Zoom";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
-//import { useMediaQuery, useTheme } from "@mui/material";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 interface Props {
   children: React.ReactElement;
@@ -56,8 +56,8 @@ export default function MembersDashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  //const theme = useTheme();
-  //const mobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const theme = useTheme();
+  const mobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <React.Fragment>
       <CssBaseline />
@@ -68,7 +68,7 @@ export default function MembersDashboardLayout({
           component="main"
           sx={{
             backgroundColor: "#cfd8dc",
-            pt: 4,
+            pt: mobileScreen ? 0 : 4,
             minHeight: "100vh",
             //overflow: "inherit",
           }}
