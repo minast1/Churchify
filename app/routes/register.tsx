@@ -18,17 +18,15 @@ import {
 import SubmitButton from "~/src/SubmitButton";
 import { FormInputText } from "~/src/FormInputText";
 import { ValidatedForm } from "remix-validated-form";
-import Divider from "@mui/material/Divider";
 import { FormInputDropdown } from "~/src/FormInputDropdown";
-import FormControl from "@mui/material/FormControl";
-//import { authenticator } from "~/lib/auth.server";
 import { commitSession, getSession } from "~/lib/session.server";
 import FormHelperText from "@mui/material/FormHelperText";
-import { Denomination } from "@prisma/client";
+import { Denomination, Role } from "@prisma/client";
 import { denominations, memberSignupValidator } from "~/src/constants";
+import { authenticator } from "~/lib/auth.server";
 
 const MemberSignUp = () => {
-  // const { courses, error } = useLoaderData();
+  const { error } = useLoaderData();
   return (
     <Container component="main" maxWidth="xs" sx={{ pt: 6 }}>
       <CssBaseline />
@@ -47,7 +45,7 @@ const MemberSignUp = () => {
         <Avatar
           sx={{ margin: theme.spacing(1), width: 80, height: 80 }}
           alt="ItsaLogo"
-          src="/itsa.jpg"
+          src="/avatar-1.jpg"
         />
         <Typography component="h1" variant="h5">
           Sign up
@@ -64,11 +62,11 @@ const MemberSignUp = () => {
         >
           <FormInputText name="name" label="User Name" />
           <FormInputText name="email" label="Email" styles={{ mt: 2 }} />
-          {/*error && (
+          {error && (
             <FormHelperText sx={{ color: "red" }}>
               {error.message}
             </FormHelperText>
-          )*/}
+          )}
           <FormInputText
             name="password"
             label="Password"
@@ -90,6 +88,12 @@ const MemberSignUp = () => {
               return { label: item, value: item };
             })}
           />
+
+          <input
+            name="role"
+            defaultValue={"MEMBER" as Role}
+            style={{ display: "none" }}
+          />
           <SubmitButton title="Sign Up" formId="member_signup" />
           <Grid container>
             <Grid item xs></Grid>
@@ -109,9 +113,9 @@ export default MemberSignUp;
 
 export const loader: LoaderFunction = async ({ request }) => {
   let session: Session = await getSession(request.headers.get("cookie"));
-  /* let error = session.get(authenticator.sessionErrorKey);
+  let error = session.get(authenticator.sessionErrorKey);
   const data = json(
-    { error, courses: await getCoursesWithLecturers() },
+    { error },
     {
       headers: {
         // only necessary with cookieSessionStorage
@@ -119,13 +123,15 @@ export const loader: LoaderFunction = async ({ request }) => {
       },
     }
   );
-  return data; */
-  return null;
+  return data;
 };
 
 export const action: ActionFunction = async ({ request, context }) => {
-  /*await authenticator.authenticate("lecturer", request, {
-    successRedirect: "/lecturer/dashboard",
-    failureRedirect: "/lecturer/register",
-  });*/
+  // const formData = await request.formData();
+  //console.log(formData);
+  await authenticator.authenticate("user-pass", request, {
+    successRedirect: "/members/",
+    failureRedirect: "/register",
+  });
+  return null;
 };

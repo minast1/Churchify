@@ -17,18 +17,14 @@ import {
 } from "remix";
 import SubmitButton from "~/src/SubmitButton";
 import { FormInputText } from "~/src/FormInputText";
-import { ValidatedForm } from "remix-validated-form";
-import Divider from "@mui/material/Divider";
-import { FormInputDropdown } from "~/src/FormInputDropdown";
-import FormControl from "@mui/material/FormControl";
-//import { authenticator } from "~/lib/auth.server";
+import { authenticator } from "~/lib/auth.server";
 import { commitSession, getSession } from "~/lib/session.server";
 import FormHelperText from "@mui/material/FormHelperText";
-import { Denomination } from "@prisma/client";
 import { memberLoginValidator } from "~/src/constants";
+import { ValidatedForm } from "remix-validated-form";
 
 const MemberSignIn = () => {
-  // const { error } = useLoaderData();
+  const { error } = useLoaderData();
   return (
     <Container component="main" maxWidth="xs" sx={{ pt: 15 }}>
       <CssBaseline />
@@ -47,7 +43,7 @@ const MemberSignIn = () => {
         <Avatar
           sx={{ margin: theme.spacing(1), width: 80, height: 80 }}
           alt="ItsaLogo"
-          src="/itsa.jpg"
+          src="/avatar-1.jpg"
         />
         <Typography component="h1" variant="h5">
           Sign In
@@ -60,11 +56,15 @@ const MemberSignIn = () => {
           component={ValidatedForm}
         >
           <FormInputText name="email" label="Email" styles={{ mt: 2 }} />
-          {/*error && (
-            <FormHelperText sx={{ color: "red" }}>
+          {error && (
+            <FormHelperText
+              sx={{
+                color: "red",
+              }}
+            >
               {error.message}
             </FormHelperText>
-          )*/}
+          )}
           <FormInputText
             name="password"
             label="Password"
@@ -73,6 +73,7 @@ const MemberSignIn = () => {
           />
 
           <SubmitButton title="Sign In" formId="member_signIn" />
+
           <Grid container>
             <Grid item xs></Grid>
             <Grid item>
@@ -91,7 +92,7 @@ export default MemberSignIn;
 
 export const loader: LoaderFunction = async ({ request }) => {
   let session: Session = await getSession(request.headers.get("cookie"));
-  /*let error = session.get(authenticator.sessionErrorKey);
+  let error = session.get(authenticator.sessionErrorKey);
   const data = json(
     { error },
     {
@@ -101,13 +102,14 @@ export const loader: LoaderFunction = async ({ request }) => {
       },
     }
   );
-  return data; */
-  return null;
+  return data;
 };
 
-export const action: ActionFunction = async ({ request, context }) => {
-  /*await authenticator.authenticate("lecturer", request, {
-    successRedirect: "/lecturer/dashboard",
-    failureRedirect: "/lecturer/register",
-  });*/
+export const action: ActionFunction = async ({ request }) => {
+  await authenticator.authenticate("user-pass", request, {
+    successRedirect: "/members/",
+    failureRedirect: "/",
+  });
+
+  return null;
 };

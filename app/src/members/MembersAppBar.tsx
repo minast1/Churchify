@@ -13,14 +13,14 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Logout from "@mui/icons-material/Logout";
 import ForumIcon from "@mui/icons-material/Forum";
-import { Link } from "remix";
+import { Link, useFetcher } from "remix";
 import HomeIcon from "@mui/icons-material/Home";
 
 export default function MembersAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
-
+  const fetcher = useFetcher();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -60,6 +60,16 @@ export default function MembersAppBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem
+        onClick={() =>
+          fetcher.submit(
+            { button: "logout" },
+            { method: "post", action: "/members/?index" }
+          )
+        }
+      >
+        Logout
+      </MenuItem>
     </Menu>
   );
 

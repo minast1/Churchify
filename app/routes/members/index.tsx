@@ -7,6 +7,8 @@ import { useMediaQuery, useTheme } from "@mui/material";
 import List from "@mui/material/List";
 import PageHeader from "~/src/members/PageHeader";
 import PaginationComponent from "~/src/components/Pagination";
+import { ActionFunction, LoaderFunction } from "remix";
+import { authenticator } from "~/lib/auth.server";
 
 const Index = () => {
   const theme = useTheme();
@@ -59,3 +61,21 @@ const Index = () => {
 };
 
 export default Index;
+
+export const loader: LoaderFunction = async ({ request }) => {
+  // If the user is already authenticated redirect to /dashboard directly
+  let user = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/",
+  });
+  console.log(user);
+  return user;
+};
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const actionType = formData.get("button");
+  if (actionType === "logout") {
+    return await authenticator.logout(request, { redirectTo: "/" });
+  }
+  return null;
+};

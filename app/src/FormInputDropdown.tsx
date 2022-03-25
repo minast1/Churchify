@@ -1,7 +1,7 @@
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
-import { useField } from "remix-validated-form";
 import TextField from "@mui/material/TextField";
+import { useField } from "remix-validated-form";
 
 type FormInputProps = {
   name: string;

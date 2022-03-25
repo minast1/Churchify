@@ -36,6 +36,7 @@
     "react-material-file-upload": "^0.0.4",
     "remix": "^1.2.3",
     "remix-auth": "^3.2.1",
+    "remix-auth-form": "^1.1.1",
     "remix-firebase-storage-file-handler": "^1.0.0",
     "remix-utils": "^2.9.0",
     "remix-validated-form": "^4.1.8",

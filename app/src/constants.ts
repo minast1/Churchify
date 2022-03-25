@@ -35,6 +35,7 @@ export const memberSignupValidator = withZod(
     email: z.string().nonempty("* This field is required").email({ message: "Please enter a valid email address" }),
     password: z.string().nonempty(" * This field is required"),
     confirm: z.string().nonempty("Please confirm the password"),
+    //role: z.string(),
     denomination: z.enum(denominations),
   }).refine((data) => data.password === data.confirm, {
     message: "Passwords don't match", 
@@ -44,7 +45,7 @@ export const memberSignupValidator = withZod(
 
 export const memberLoginValidator = withZod(
     z.object({
-        name: z.string().nonempty("* This field is required"),
+        //name: z.string().nonempty("* This field is required"),
         email: z.string().nonempty("* This field is required").email({ message: "Please enter a valid email address" }),
         password: z.string().nonempty(" * This field is required"),
     }   

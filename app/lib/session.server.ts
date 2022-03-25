@@ -7,7 +7,7 @@ export let sessionStorage = createCookieSessionStorage({
     sameSite: "lax", // this helps with CSRF
     path: "/", // remember to add this so the cookie will work in all routes
     httpOnly: true, // for security reasons, make this cookie http only
-    secrets: ["$1$eLE.LbFf$Sv9ObwgWGVokYe145X4AA/", ] , // replace this with an actual secre
+    secrets: ["$1$eLE.LbFf$Sv9ObwgWGVokYe145X4AA/"] , // replace this with an actual secre
     secure: process.env.NODE_ENV === "production", // enable this in prod only
     //maxAge: 5
   },
