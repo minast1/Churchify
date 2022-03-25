@@ -13,8 +13,8 @@ const AdminLayoutRout = () => {
         <Box
           component="main"
           sx={{
-            backgroundColor: "#cfd8dc",
-            pt: 4,
+            backgroundColor: "#63639a",
+            //pt: 1,
             minHeight: "100vh",
             //overflow: "inherit",
           }}
@@ -27,9 +27,7 @@ const AdminLayoutRout = () => {
               alignItems: "center",
               justifyContent: "center",
             }}
-          >
-            Footer Area
-          </Box>
+          ></Box>
         </Box>
       </Container>
     </React.Fragment>

@@ -14,6 +14,16 @@ const theme = createTheme({
       main: red.A400,
     },
   },
+  components: {
+    MuiMenu: {
+      styleOverrides: {
+        list: {
+          backgroundColor: 'background.paper',
+          //color: 'white'
+       }
+      }
+    }
+  }
 });
 
 export default theme;

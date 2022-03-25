@@ -15,12 +15,19 @@ import Logout from "@mui/icons-material/Logout";
 import ForumIcon from "@mui/icons-material/Forum";
 import { Link, useFetcher } from "remix";
 import HomeIcon from "@mui/icons-material/Home";
+import { useRouteData } from "remix-utils";
+import { User } from "@prisma/client";
+import { AnnouncementWithCreator } from "~/controllers/announcementController";
 
 export default function MembersAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
   const fetcher = useFetcher();
+  const data = useRouteData<Omit<User, "password"> & AnnouncementWithCreator>(
+    "/members/"
+  );
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -60,6 +67,12 @@ export default function MembersAppBar() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {data?.role === "ADMIN" && (
+        <MenuItem component={Link} to="/admin/dashboard/">
+          Admin Dashboard
+        </MenuItem>
+      )}
+
       <MenuItem
         onClick={() =>
           fetcher.submit(

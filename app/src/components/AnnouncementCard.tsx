@@ -6,12 +6,18 @@ import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Divider } from "@mui/material";
+import CardActions from "@mui/material/CardActions";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import IconButton from "@mui/material/IconButton";
 
 type AppProps = {
   description: string;
-  created: string;
+  created: string | Date;
   postedBy: string;
   image?: string;
+  avatar: string | null;
   view: Boolean;
 };
 const AnnouncementCard = ({
@@ -20,28 +26,24 @@ const AnnouncementCard = ({
   postedBy,
   image,
   view,
+  avatar,
 }: AppProps) => {
   return (
-    <Card elevation={0}>
+    <Card elevation={0} square>
       <CardHeader
         avatar={
           <Avatar
             // sx={{ bgcolor: red[500] }}
             aria-label="recipe"
-            src={
-              postedBy === "PaxRomana"
-                ? "/paxRomana.jpg"
-                : postedBy === "GUBS"
-                ? "/gubs.jpeg"
-                : postedBy === "AGCM"
-                ? "/agcm.jpeg"
-                : postedBy === "NUPS"
-                ? "/nups.jpeg"
-                : "/pensa.jpeg"
-            }
+            src={avatar ? avatar : "/avatar-1.jpg"}
           >
             R
           </Avatar>
+        }
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
         }
         title={
           <Typography variant="body2" sx={{ fontWeight: "bold" }}>
@@ -53,7 +55,7 @@ const AnnouncementCard = ({
       {image && (
         <CardMedia
           component="img"
-          height={view ? 160 : 190}
+          height={view ? 190 : 300}
           image={image}
           alt="Paella dish"
         />

@@ -3,15 +3,27 @@ import AnnouncementCard from "~/src/components/AnnouncementCard";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { useMediaQuery, useTheme } from "@mui/material";
-
+import { format } from "date-fns";
 import List from "@mui/material/List";
 import PageHeader from "~/src/members/PageHeader";
 import PaginationComponent from "~/src/components/Pagination";
-import { ActionFunction, LoaderFunction } from "remix";
+import { ActionFunction, json, LoaderFunction, useLoaderData } from "remix";
 import { authenticator } from "~/lib/auth.server";
+import {
+  PaginatedAnnouncements,
+  paginatedAnnouncements,
+} from "~/controllers/announcementController";
+import { User } from "@prisma/client";
 
+export type loaderType = {
+  announcements: PaginatedAnnouncements;
+};
 const Index = () => {
   const theme = useTheme();
+
+  const loaderData = useLoaderData<loaderType>();
+
+  ///console.log(loaderData.announcements.count);
   const mobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Container
@@ -20,30 +32,25 @@ const Index = () => {
     >
       <PageHeader title="General Announcement Area" />
 
-      <List sx={{ width: "100%", bgcolor: "white", boxShadow: 8 }}>
-        <AnnouncementCard
-          postedBy="GUBS"
-          view={mobileScreen}
-          created="29-06-2022"
-          image="/example1.jpg"
-          description="This impressive paella is a perfect party dish and a fun meal to cook 
-          together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
-        />
-        <AnnouncementCard
-          view={mobileScreen}
-          postedBy="PaxRomana"
-          created="01-03-2022"
-          description="This impressive paella is a perfect party dish and a fun meal to cook 
-          together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
-        />
-        <AnnouncementCard
-          view={mobileScreen}
-          postedBy="PENSA"
-          created="01-03-2022"
-          image="/example2.jpg"
-          description="This impressive paella is a perfect party dish and a fun meal to cook 
-          together with your guests. Add 1 cup of frozen peas along with the mussels, if you like."
-        />
+      <List
+        sx={{
+          width: "100%",
+          boxShadow: 8,
+          backgroundColor: "background.paper",
+        }}
+      >
+        {loaderData.announcements.data.map((item) => (
+          <AnnouncementCard
+            key={item.id}
+            postedBy={item.creator.name}
+            view={mobileScreen}
+            created={format(new Date(item.createdAt), "PPPP")}
+            avatar={item.creator.avatar}
+            image={item.image as string}
+            description={item.body}
+          />
+        ))}
+
         <Box
           display="flex"
           alignItems="center"
@@ -53,7 +60,7 @@ const Index = () => {
             // backgroundColor: "white",
           }}
         >
-          <PaginationComponent total={30} />
+          <PaginationComponent total={loaderData.announcements.count} />
         </Box>
       </List>
     </Container>
@@ -67,8 +74,13 @@ export const loader: LoaderFunction = async ({ request }) => {
   let user = await authenticator.isAuthenticated(request, {
     failureRedirect: "/",
   });
-  console.log(user);
-  return user;
+  if (user) {
+    const url = new URL(request.url);
+    const page: string | null = url.searchParams.get("page");
+
+    const announcements = await paginatedAnnouncements(page);
+    return json({ user, announcements });
+  }
 };
 
 export const action: ActionFunction = async ({ request }) => {

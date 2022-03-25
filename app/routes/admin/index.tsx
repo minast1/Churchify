@@ -1,89 +1,118 @@
 import React from "react";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
 import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import CssBaseline from "@mui/material/CssBaseline";
+import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
-import { useMediaQuery, useTheme } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
-import { Denomination } from "@prisma/client";
-import { categories } from "~/src/constants";
-import { ActionFunction, Form, LoaderFunction, useSubmit } from "remix";
-import { db } from "~/lib/db.server";
-import AnnouncementTable from "~/src/components/admin/AnnouncementTable";
-import { ClientOnly } from "remix-utils";
-import CircularProgress from "@mui/material/CircularProgress";
-import Fileupload from "~/components/Fileupload.client";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
-import { useStore } from "~/lib/store";
+import Paper from "@mui/material/Paper";
+import theme from "~/src/theme";
+import Box from "@mui/material/Box";
+import {
+  ActionFunction,
+  json,
+  Link,
+  LoaderFunction,
+  Session,
+  useLoaderData,
+} from "remix";
+import SubmitButton from "~/src/SubmitButton";
+import { FormInputText } from "~/src/FormInputText";
+import { authenticator } from "~/lib/auth.server";
+import { commitSession, getSession } from "~/lib/session.server";
+import FormHelperText from "@mui/material/FormHelperText";
+import { memberLoginValidator } from "~/src/constants";
+import { ValidatedForm } from "remix-validated-form";
 
-const AdminIndexRoute = () => {
-  const theme = useTheme();
-  const mobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [category, setCategory] = React.useState<Denomination>("GENERAL");
-  const [announcement, setAnnouncement] = React.useState<string>("");
-  const Image = useStore((state) => state.file);
-  const submit = useSubmit();
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCategory(event.target.value as Denomination);
-  };
-
+const AdminSignIn = () => {
+  const { error } = useLoaderData();
   return (
-    <Container maxWidth="lg" sx={{ mt: 5, mb: 4 }}>
-      <Card
-        sx={{ mb: 5 /*height: mobileScreen ? 670 : 590 */ }}
-        // component={Form}
-        //method="post"
-        //encType="multipart/form-data"
+    <Container component="main" maxWidth="xs" sx={{ pt: 15 }}>
+      <CssBaseline />
+      <Paper
+        sx={{
+          //marginTop: theme.spacing(8),
+          p: theme.spacing(3),
+          backgroundColor: "background.paper",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+        elevation={5}
+        square
       >
-        <CardHeader title="Create New Announcement" />
-        <CardContent
-          sx={{
-            borderTop: "1px solid lightgray",
-            borderBottom: "1px solid lightgray",
-          }}
+        <Avatar
+          sx={{ margin: theme.spacing(1), width: 80, height: 80 }}
+          alt="ItsaLogo"
+          src="/avatar-1.jpg"
+        />
+        <Typography component="h1" variant="h5">
+          Sign In
+        </Typography>
+        <Box
+          sx={{ width: "90%", mt: theme.spacing(1) }}
+          method="post"
+          id="admin_signIn"
+          validator={memberLoginValidator}
+          component={ValidatedForm}
         >
-          Admin Login area
-        </CardContent>
-      </Card>
+          <FormInputText name="email" label="Email" styles={{ mt: 2 }} />
+          {error && (
+            <FormHelperText
+              sx={{
+                color: "red",
+              }}
+            >
+              {error.message}
+            </FormHelperText>
+          )}
+          <FormInputText
+            name="password"
+            label="Password"
+            type="password"
+            styles={{ mt: 2 }}
+          />
+
+          <SubmitButton title="Sign In" formId="admin_signIn" />
+
+          <Grid container>
+            <Grid item xs></Grid>
+            <Grid item>
+              <Link
+                to="/admin/register"
+                style={{ color: "blue", fontSize: 13 }}
+              >
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Paper>
     </Container>
   );
 };
 
-export default AdminIndexRoute;
+export default AdminSignIn;
 
-export const loader: LoaderFunction = async () => {
-  /*const data = await db.announcement.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      creator: {
-        select: {
-          name: true,
-        },
+export const loader: LoaderFunction = async ({ request }) => {
+  let session: Session = await getSession(request.headers.get("cookie"));
+  let error = session.get(authenticator.sessionErrorKey);
+  const data = json(
+    { error },
+    {
+      headers: {
+        // only necessary with cookieSessionStorage
+        "Set-Cookie": await commitSession(session),
       },
-    },
-  });
-  const formattedData = data.map((item) => {
-    return {
-      id: item.id,
-      name: item.creator.name,
-      category: item.category,
-      createdAt: item.createdAt,
-    };
-  });
-
-  return formattedData;*/
-  return null;
+    }
+  );
+  return data;
 };
 
-export const action: ActionFunction = async () => {
-  //const formData = await request.formData();
-  console.log("Yayyyaaaa");
+export const action: ActionFunction = async ({ request }) => {
+  await authenticator.authenticate("user-pass", request, {
+    successRedirect: "/members/",
+    failureRedirect: "/",
+  });
+
   return null;
 };
