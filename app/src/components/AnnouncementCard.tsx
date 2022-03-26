@@ -11,11 +11,13 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import IconButton from "@mui/material/IconButton";
+import { Denomination } from "@prisma/client";
 
 type AppProps = {
   description: string;
   created: string | Date;
   postedBy: string;
+  denomination: Denomination;
   image?: string;
   avatar: string | null;
   view: Boolean;
@@ -26,6 +28,7 @@ const AnnouncementCard = ({
   postedBy,
   image,
   view,
+  denomination,
   avatar,
 }: AppProps) => {
   return (

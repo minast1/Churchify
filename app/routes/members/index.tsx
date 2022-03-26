@@ -13,15 +13,14 @@ import {
   PaginatedAnnouncements,
   paginatedAnnouncements,
 } from "~/controllers/announcementController";
-import { User } from "@prisma/client";
+//import { Announcement, User } from "@prisma/client";
+import { getSession } from "~/lib/session.server";
 
-export type loaderType = {
-  announcements: PaginatedAnnouncements;
-};
 const Index = () => {
   const theme = useTheme();
 
-  const loaderData = useLoaderData<loaderType>();
+  const loaderData = useLoaderData<PaginatedAnnouncements>();
+  const { data, count } = loaderData;
 
   ///console.log(loaderData.announcements.count);
   const mobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -39,17 +38,19 @@ const Index = () => {
           backgroundColor: "background.paper",
         }}
       >
-        {loaderData.announcements.data.map((item) => (
-          <AnnouncementCard
-            key={item.id}
-            postedBy={item.creator.name}
-            view={mobileScreen}
-            created={format(new Date(item.createdAt), "PPPP")}
-            avatar={item.creator.avatar}
-            image={item.image as string}
-            description={item.body}
-          />
-        ))}
+        {data.length &&
+          data.map((item) => (
+            <AnnouncementCard
+              key={item.id}
+              postedBy={item.creator.name}
+              denomination={item.creator.denomination}
+              view={mobileScreen}
+              created={format(new Date(item.createdAt), "PPPP")}
+              avatar={item.creator.avatar}
+              image={item.image as string}
+              description={item.body}
+            />
+          ))}
 
         <Box
           display="flex"
@@ -60,7 +61,7 @@ const Index = () => {
             // backgroundColor: "white",
           }}
         >
-          <PaginationComponent total={loaderData.announcements.count} />
+          <PaginationComponent total={count ? count : 1} />
         </Box>
       </List>
     </Container>
@@ -71,15 +72,15 @@ export default Index;
 
 export const loader: LoaderFunction = async ({ request }) => {
   // If the user is already authenticated redirect to /dashboard directly
-  let user = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/",
-  });
+  const session = await getSession(request.headers.get("Cookie"));
+  const user = session.get("user");
+
   if (user) {
     const url = new URL(request.url);
     const page: string | null = url.searchParams.get("page");
 
     const announcements = await paginatedAnnouncements(page);
-    return json({ user, announcements });
+    return json({ ...announcements });
   }
 };
 

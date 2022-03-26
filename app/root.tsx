@@ -63,7 +63,11 @@ const Document = withEmotionCache(
           component="body"
           maxWidth="xl"
           disableGutters
-          sx={{ backgroundColor: "#63639a", minHeight: "100vh" }}
+          sx={{
+            backgroundColor: "#63639a",
+            minHeight: "100vh",
+            //overflow: "hidden",
+          }}
         >
           {children}
           <Scripts />

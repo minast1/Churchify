@@ -109,9 +109,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export const action: ActionFunction = async ({ request }) => {
-  await authenticator.authenticate("user-pass", request, {
-    successRedirect: "/members/",
-    failureRedirect: "/",
+  await authenticator.authenticate("admin-pass", request, {
+    successRedirect: "/admin/dashboard/",
+    failureRedirect: "/admin/?index",
   });
 
   return null;

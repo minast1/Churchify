@@ -44,12 +44,36 @@ export const memberSignupValidator = withZod(
 )
 
 export const memberLoginValidator = withZod(
-    z.object({
-        //name: z.string().nonempty("* This field is required"),
-        email: z.string().nonempty("* This field is required").email({ message: "Please enter a valid email address" }),
-        password: z.string().nonempty(" * This field is required"),
-    }   
-))
+  z.object({
+    //name: z.string().nonempty("* This field is required"),
+    email: z.string().nonempty("* This field is required").email({ message: "Please enter a valid email address" }),
+    password: z.string().nonempty(" * This field is required"),
+  }
+  ));
+
+export const getDenominationAvatar = (deno: Denomination): string => {
+  let ret:string;
+         switch (deno) {
+         case 'PAXROMANA':
+            ret =  "/paxRomana.jpg";
+           break;
+           case 'PENSA':
+             ret = "/pensa.jpeg";
+             break;
+           case 'CASA':
+             ret = "/gubs.jpeg";
+             break;
+           case 'AGCM':
+             ret = "/agcm.jpeg";
+             break;
+           case 'NUPSG':
+             ret = "/nups.jpeg"
+             break;
+         default:
+           ret= '"/gubs.jpeg"'
+         }
+    return ret
+  }
 
 
 

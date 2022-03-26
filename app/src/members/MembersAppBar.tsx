@@ -15,18 +15,15 @@ import Logout from "@mui/icons-material/Logout";
 import ForumIcon from "@mui/icons-material/Forum";
 import { Link, useFetcher } from "remix";
 import HomeIcon from "@mui/icons-material/Home";
-import { useRouteData } from "remix-utils";
-import { User } from "@prisma/client";
-import { AnnouncementWithCreator } from "~/controllers/announcementController";
+//import { useRouteData } from "remix-utils";
+//import { User } from "@prisma/client";
+//import { AnnouncementWithCreator } from "~/controllers/announcementController";
 
 export default function MembersAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
   const fetcher = useFetcher();
-  const data = useRouteData<Omit<User, "password"> & AnnouncementWithCreator>(
-    "/members/"
-  );
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -66,19 +63,10 @@ export default function MembersAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      {data?.role === "ADMIN" && (
-        <MenuItem component={Link} to="/admin/dashboard/">
-          Admin Dashboard
-        </MenuItem>
-      )}
 
       <MenuItem
         onClick={() =>
-          fetcher.submit(
-            { button: "logout" },
-            { method: "post", action: "/members/?index" }
-          )
+          fetcher.submit({}, { method: "post", action: "/members" })
         }
       >
         Logout
@@ -103,13 +91,17 @@ export default function MembersAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem component={Link} to="/members/">
+      <MenuItem component={Link} to="/members/" onClick={handleMobileMenuClose}>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <HomeIcon />
         </IconButton>
         <p>PCU Dashboard</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem
+        onClick={handleMobileMenuClose}
+        component={Link}
+        to="/members/chatroom"
+      >
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <ForumIcon />
@@ -117,7 +109,11 @@ export default function MembersAppBar() {
         </IconButton>
         <p>ChatRoom</p>
       </MenuItem>
-      <MenuItem component={Link} to="/members/notifications">
+      <MenuItem
+        component={Link}
+        to="/members/notifications"
+        onClick={handleMobileMenuClose}
+      >
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
@@ -129,7 +125,11 @@ export default function MembersAppBar() {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem
+        onClick={() =>
+          fetcher.submit({}, { method: "post", action: "/members" })
+        }
+      >
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -177,6 +177,8 @@ export default function MembersAppBar() {
             </IconButton>
             <IconButton
               size="large"
+              component={Link}
+              to="/members/chatroom"
               aria-label="show 4 new mails"
               color="inherit"
             >
