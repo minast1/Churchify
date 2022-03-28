@@ -19,6 +19,7 @@ try {
         app = getApps().length === 0 ?
             initializeApp({
                 credential: applicationDefault(),
+                storageBucket: process.env.FIREBASE_STORAGE_BUCKET
             }) : getApp();
         }
         
@@ -27,7 +28,7 @@ try {
     } 
 
 
-const bucket = getStorage(app).bucket(); 
-export { bucket};
+const bucket = getStorage().bucket(); 
+export { bucket, app};
 
 //initializeApp();
