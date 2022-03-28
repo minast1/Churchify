@@ -9,12 +9,13 @@ import Button from "@mui/material/Button";
 import { useMediaQuery, useTheme } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import { Denomination, User } from "@prisma/client";
+import { Announcement, Denomination, User } from "@prisma/client";
 import { categories } from "~/src/constants";
 import {
   ActionFunction,
   Form,
   LoaderFunction,
+  useActionData,
   useFetcher,
   useOutletContext,
 } from "remix";
@@ -25,6 +26,8 @@ import { useStore } from "~/lib/store";
 import FileUpload from "react-material-file-upload";
 import { uploadImage } from "~/lib/handler.server";
 import { getAllAnnouncements } from "~/controllers/announcementController";
+import toast, { Toaster } from "react-hot-toast";
+import { Alert } from "~/src/components/CustomAlert";
 
 const DashboardIndex = () => {
   const theme = useTheme();
@@ -40,6 +43,20 @@ const DashboardIndex = () => {
   const file = useStore((state: any) => state.file);
 
   const user = useOutletContext<Omit<User, "password">>();
+  const data = useActionData<Announcement>();
+
+  React.useEffect(() => {
+    fetcher.state === "loading" &&
+      toast.custom(
+        <Alert severity="success">
+          {`New announcement added successfully`}{" "}
+        </Alert>,
+        {
+          position: "bottom-right",
+        }
+      );
+  }, [fetcher.state, data]);
+
   return (
     <Container maxWidth="lg" sx={{ mt: 5, mb: 4 }}>
       <Card
@@ -144,6 +161,7 @@ const DashboardIndex = () => {
           </Button>
         </CardActions>
       </Card>
+      <Toaster />
     </Container>
   );
 };
