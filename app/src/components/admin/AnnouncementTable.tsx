@@ -102,7 +102,7 @@ export default function AnnouncementTable() {
     {
       field: "category",
       headerName: "Category",
-      width: 180,
+      width: 140,
       align: "center",
       headerAlign: "center",
     },
@@ -138,7 +138,7 @@ export default function AnnouncementTable() {
             {fetcher.state === "loading" && params.hasFocus ? (
               <CircularProgress color="inherit" size={20} />
             ) : (
-              "Delete Announcement"
+              "Delete"
             )}
           </Button>
         );
