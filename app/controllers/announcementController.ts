@@ -1,7 +1,43 @@
-import { Denomination, Prisma } from "@prisma/client"
+import { Announcement, Denomination, Prisma } from "@prisma/client"
 import { db } from "~/lib/db.server"
 
+export const addAnnouncement = async (formData: Omit<Announcement, "id"| "createdAt">) => {
+    const data = await db.announcement.create({
+        data: {
+            body: formData.body,
+            image: formData.image != null ? formData.image : undefined,
+            creatorId: formData.creatorId,
+            category: formData.category
+            
+        }
+    });
+    return data; 
+}
 
+export const getAllAnnouncements = async () => {
+     const data = await db.announcement.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      creator: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+  const formattedData = data.map((item) => {
+    return {
+      id: item.id,
+      name: item.creator.name,
+      category: item.category,
+      createdAt: item.createdAt,
+    };
+  });
+
+  return formattedData;
+}
 
 export type PaginatedNotifications = Prisma.PromiseReturnType<typeof paginatedNotifications>
 

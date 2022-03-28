@@ -9,15 +9,22 @@ import Button from "@mui/material/Button";
 import { useMediaQuery, useTheme } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import { Denomination } from "@prisma/client";
+import { Denomination, User } from "@prisma/client";
 import { categories } from "~/src/constants";
-import { ActionFunction, LoaderFunction, useFetcher } from "remix";
+import {
+  ActionFunction,
+  Form,
+  LoaderFunction,
+  useFetcher,
+  useOutletContext,
+} from "remix";
 //import AnnouncementTable from "~/src/components/admin/AnnouncementTable";
 import { ClientOnly } from "remix-utils";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useStore } from "~/lib/store";
 import FileUpload from "react-material-file-upload";
 import { uploadImage } from "~/lib/handler.server";
+import { getAllAnnouncements } from "~/controllers/announcementController";
 
 const DashboardIndex = () => {
   const theme = useTheme();
@@ -28,16 +35,18 @@ const DashboardIndex = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategory(event.target.value as Denomination);
   };
+
   const setFile = useStore((state: any) => state.setFile);
   const file = useStore((state: any) => state.file);
 
+  const user = useOutletContext<Omit<User, "password">>();
   return (
     <Container maxWidth="lg" sx={{ mt: 5, mb: 4 }}>
       <Card
         sx={{ mb: 5 /*height: mobileScreen ? 670 : 590 */ }}
-        // component={Form}
-        //method="post"
-        //encType="multipart/form-data"
+        //component={Form}
+        // method="post"
+        // encType="multipart/form-data"
       >
         <CardHeader title="Create New Announcement" />
         <CardContent
@@ -116,7 +125,8 @@ const DashboardIndex = () => {
               //save image to firebase
               const formData = new FormData();
 
-              formData.set("title", announcement);
+              formData.set("body", announcement);
+              formData.set("creatorId", user.id);
               formData.set("image", file[0]);
               formData.set("category", category);
               fetcher.submit(formData, {
@@ -126,7 +136,11 @@ const DashboardIndex = () => {
               });
             }}
           >
-            Submit Announcement
+            {fetcher.state === "submitting" ? (
+              <CircularProgress color="inherit" size={20} />
+            ) : (
+              "Submit Announcement"
+            )}
           </Button>
         </CardActions>
       </Card>
@@ -137,36 +151,11 @@ const DashboardIndex = () => {
 export default DashboardIndex;
 
 export const action: ActionFunction = async ({ request }) => {
-  const url = (await uploadImage(request)) as File;
-  const formData = await request.formData();
+  const data = await uploadImage(request);
 
-  //save announcement into the database with the url;
-  //const announcement = await db.ann;
-  return null;
+  return data;
 };
 
 export const loader: LoaderFunction = async () => {
-  /*const data = await db.announcement.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      creator: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
-  const formattedData = data.map((item) => {
-    return {
-      id: item.id,
-      name: item.creator.name,
-      category: item.category,
-      createdAt: item.createdAt,
-    };
-  });
-
-  return formattedData;*/
-  return null;
+  return await getAllAnnouncements();
 };

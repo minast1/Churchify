@@ -1,6 +1,8 @@
 import {unstable_parseMultipartFormData,} from "remix";
 import { bucket } from "./firebase";
 import type { Readable } from "stream";
+import { addAnnouncement } from "~/controllers/announcementController";
+import { Denomination } from "@prisma/client";
 
 type UploadHandlerArgs = {
     name: string;
@@ -10,10 +12,10 @@ type UploadHandlerArgs = {
   mimetype: string;
 }
 const uploadHandler = async ({encoding, stream, mimetype,filename}: UploadHandlerArgs) => {
-   
+  if (filename.length > 0) {
     // Get the file as a buffer
-      const chunks: Buffer[]  = [];
-      for await (const chunk of stream) chunks.push(chunk);
+    const chunks: Buffer[] = [];
+    for await (const chunk of stream) chunks.push(chunk);
     const buffer = Buffer.concat(chunks);
     const timestamp = new Date().getTime();
     const extension = filename.split('.').pop();
@@ -24,14 +26,16 @@ const uploadHandler = async ({encoding, stream, mimetype,filename}: UploadHandle
     await instance.setMetadata({
       "Content-Type": mimetype,
       "Content-Encoding": encoding,
-    }); 
+    });
 
-     // Make the file publicly readable - maintain other permissions
+    // Make the file publicly readable - maintain other permissions
     // https://googleapis.dev/nodejs/storage/latest/File.html#makePublic
     await instance.makePublic();
 
     // Return the public URL
     return instance.publicUrl();
+  }
+  return;
 }
 
 export async function uploadImage(request: Request) {
@@ -40,8 +44,10 @@ export async function uploadImage(request: Request) {
     uploadHandler
   );
 
-    const file = formData.get("image");
+  const image = formData.get("image")as string
+  const body =  formData.get("body")as string
+    const creatorId = formData.get("creatorId")as string
+  const category = formData.get("category")as Denomination
      //console.log(file)
-  //file is the url to be saved to the database.... Pronto.!
-  return file;
+  return await addAnnouncement({image, body, creatorId, category})
 }

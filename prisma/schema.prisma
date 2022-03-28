@@ -15,7 +15,7 @@ generator client {
 model Announcement {
   id        String       @id @default(cuid())
   body      String       @db.Text
-  image     String?      @db.VarChar(100)
+  image     String?
   creator   User         @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   category  Denomination @default(GENERAL)
   creatorId String

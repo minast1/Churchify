@@ -18,7 +18,7 @@ export default DashboardLayout;
 export const loader: LoaderFunction = async ({ request }) => {
   // If the user is already authenticated redirect to /dashboard directly
   return await authenticator.isAuthenticated(request, {
-    failureRedirect: "/",
+    failureRedirect: "/admin/",
   });
 };
 
