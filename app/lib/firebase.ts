@@ -27,7 +27,7 @@ try {
     } 
 
 
-const bucket = getStorage().bucket();
-export { bucket, app};
+const bucket = getStorage(app).bucket(); 
+export { bucket};
 
 //initializeApp();
