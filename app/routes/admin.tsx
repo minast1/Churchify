@@ -13,26 +13,8 @@ const AdminLayoutRout = () => {
     <React.Fragment>
       <CssBaseline />
 
-      <Container maxWidth={false} disableGutters sx={{ height: "100vh" }}>
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: "#63639a",
-            //pt: 1,
-            // minHeight: "50vh",
-            //overflow: "inherit",
-          }}
-        >
-          <Outlet />
-          <Box
-            sx={{
-              mt: 2,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          ></Box>
-        </Box>
+      <Container maxWidth={false} disableGutters>
+        <Outlet />
       </Container>
     </React.Fragment>
   );

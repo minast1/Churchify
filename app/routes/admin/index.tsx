@@ -26,7 +26,7 @@ import { ValidatedForm } from "remix-validated-form";
 const AdminSignIn = () => {
   const { error } = useLoaderData();
   return (
-    <Container component="main" maxWidth="xs" sx={{ pt: 15 }}>
+    <Container maxWidth="xs" sx={{ pt: 15 }}>
       <CssBaseline />
       <Paper
         sx={{

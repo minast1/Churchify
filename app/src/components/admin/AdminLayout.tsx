@@ -3,6 +3,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import AdminAppBar from "./AdminAppBar";
+import Copyright from "~/src/Copyright";
 
 //import { useMediaQuery, useTheme } from "@mui/material";
 
@@ -25,19 +26,12 @@ export default function AdminDashboardLayout({
             backgroundColor: "#cfd8dc",
             pt: 4,
             minHeight: "100vh",
-            //overflow: "inherit",
+            overflow: "inherit",
           }}
         >
           {children}
-          <Box
-            sx={{
-              mt: 2,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            Footer Area
+          <Box>
+            <Copyright />
           </Box>
         </Box>
       </Container>
