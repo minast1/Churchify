@@ -22,6 +22,7 @@ import { commitSession, getSession } from "~/lib/session.server";
 import FormHelperText from "@mui/material/FormHelperText";
 import { memberLoginValidator } from "~/src/constants";
 import { ValidatedForm } from "remix-validated-form";
+//import Button from "@mui/material/Button";
 
 const MemberSignIn = () => {
   const { error } = useLoaderData();
@@ -74,11 +75,16 @@ const MemberSignIn = () => {
 
           <SubmitButton title="Sign In" formId="member_signIn" />
 
-          <Grid container>
+          <Grid container direction="column">
             <Grid item xs></Grid>
             <Grid item>
               <Link to="/register" style={{ color: "blue", fontSize: 13 }}>
                 {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link to="/admin/?index" style={{ color: "blue", fontSize: 13 }}>
+                Admin SignIn
               </Link>
             </Grid>
           </Grid>
