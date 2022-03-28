@@ -6,9 +6,10 @@ import TextField from "@mui/material/TextField";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
 import StyledGrid from "../StyledGrid";
-import { useLoaderData } from "remix";
+import { useFetcher, useLoaderData } from "remix";
 import { Denomination } from "@prisma/client";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function escapeRegExp(value: string): string {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -32,7 +33,7 @@ function QuickSearchToolbar(props: QuickSearchToolbarProps) {
         variant="standard"
         value={props.value}
         onChange={props.onChange}
-        placeholder="Search Student…"
+        placeholder="Search Announcement…"
         InputProps={{
           startAdornment: <SearchIcon fontSize="small" />,
           endAdornment: (
@@ -73,7 +74,7 @@ type tableData = {
 };
 export default function AnnouncementTable() {
   const parentData = useLoaderData<tableData[]>(); //useRouteData<Stats[]>("/lecturer/dashboard"); ///THIS IS WHAT WE NEED !!!!!!
-
+  const fetcher = useFetcher();
   const [searchText, setSearchText] = React.useState("");
   const [rows, setRows] = React.useState<tableData[] | []>([]);
 
@@ -101,14 +102,14 @@ export default function AnnouncementTable() {
     {
       field: "category",
       headerName: "Category",
-      width: 150,
+      width: 180,
       align: "center",
       headerAlign: "center",
     },
     {
       field: "createdAt",
       headerName: "Created At",
-      width: 150,
+      width: 250,
       align: "center",
       headerAlign: "center",
     },
@@ -122,8 +123,23 @@ export default function AnnouncementTable() {
       headerAlign: "right",
       renderCell: (params: GridValueGetterParams) => {
         return (
-          <Button size="small" variant="contained" color="error">
-            Delete Announcement
+          <Button
+            size="small"
+            id={params.id as string}
+            variant="contained"
+            color="error"
+            onClick={() => {
+              fetcher.submit(
+                { button: params.id as string },
+                { method: "post", action: "/admin/dashboard/delete" }
+              );
+            }}
+          >
+            {fetcher.state === "loading" && params.hasFocus ? (
+              <CircularProgress color="inherit" size={20} />
+            ) : (
+              "Delete Announcement"
+            )}
           </Button>
         );
       },

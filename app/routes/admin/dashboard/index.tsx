@@ -19,7 +19,6 @@ import {
   useFetcher,
   useOutletContext,
 } from "remix";
-//import AnnouncementTable from "~/src/components/admin/AnnouncementTable";
 import { ClientOnly } from "remix-utils";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useStore } from "~/lib/store";
@@ -28,6 +27,7 @@ import { uploadImage } from "~/lib/handler.server";
 import { getAllAnnouncements } from "~/controllers/announcementController";
 import toast, { Toaster } from "react-hot-toast";
 import { Alert } from "~/src/components/CustomAlert";
+import AnnouncementTable from "~/src/components/admin/AnnouncementTable";
 
 const DashboardIndex = () => {
   const theme = useTheme();
@@ -59,12 +59,7 @@ const DashboardIndex = () => {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 5, mb: 4 }}>
-      <Card
-        sx={{ mb: 5 /*height: mobileScreen ? 670 : 590 */ }}
-        //component={Form}
-        // method="post"
-        // encType="multipart/form-data"
-      >
+      <Card sx={{ mb: 5 /*height: mobileScreen ? 670 : 590 */ }}>
         <CardHeader title="Create New Announcement" />
         <CardContent
           sx={{
@@ -162,6 +157,18 @@ const DashboardIndex = () => {
         </CardActions>
       </Card>
       <Toaster />
+
+      <Card>
+        <CardHeader title="Announcements Area" />
+        <CardContent
+          sx={{
+            borderTop: "1px solid lightgray",
+            borderBottom: "1px solid lightgray",
+          }}
+        >
+          <AnnouncementTable />
+        </CardContent>
+      </Card>
     </Container>
   );
 };

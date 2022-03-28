@@ -1,5 +1,7 @@
 import { Announcement, Denomination, Prisma } from "@prisma/client"
+import { format } from "date-fns";
 import { db } from "~/lib/db.server"
+import { bucket } from "~/lib/firebase";
 
 export const addAnnouncement = async (formData: Omit<Announcement, "id"| "createdAt">) => {
     const data = await db.announcement.create({
@@ -32,7 +34,7 @@ export const getAllAnnouncements = async () => {
       id: item.id,
       name: item.creator.name,
       category: item.category,
-      createdAt: item.createdAt,
+      createdAt: format(new Date(item.createdAt),"PPPP")
     };
   });
 
@@ -104,4 +106,21 @@ export const paginatedAnnouncements = async (page: string | null) => {
     });
 
     return {data, count}
+}
+
+
+export const deleteAnnouncement = async (Id:string) => {
+    const data = await db.announcement.delete({
+        where: {
+            id: Id
+        }
+    });
+   //Delete the associated Image from firebase
+    if ( data.image?.length && data.image?.startsWith("https")) {
+
+        const image = data?.image.substring(data?.image.lastIndexOf('/') + 1);
+        await bucket.file(`announcements/${image}`).delete();
+        return data
+    }
+    return data; 
 }
