@@ -46,7 +46,7 @@ const AdminSignIn = () => {
           src="/avatar-1.jpg"
         />
         <Typography component="h1" variant="h5">
-          Sign In
+          Admin Sign In
         </Typography>
         <Box
           sx={{ width: "90%", mt: theme.spacing(1) }}
