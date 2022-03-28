@@ -12,14 +12,14 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Logout from "@mui/icons-material/Logout";
-import { Link } from "remix";
-import AttachEmailIcon from "@mui/icons-material/AttachEmail";
+import { Link, useFetcher } from "remix";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
 export default function AdminAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
-
+  const fetcher = useFetcher();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -58,7 +58,21 @@ export default function AdminAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem
+        onClick={handleMenuClose}
+        component={Link}
+        to="/admin/dashboard/addAdmin"
+      >
+        Add Admin
+      </MenuItem>
+      <MenuItem
+        //onClick={handleMenuClose}
+        onClick={() =>
+          fetcher.submit({}, { method: "post", action: "/admin/dashboard" })
+        }
+      >
+        Logout
+      </MenuItem>
     </Menu>
   );
 
@@ -79,22 +93,27 @@ export default function AdminAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem component={Link} to="/admin/">
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <NotificationsIcon />
+      <MenuItem
+        onClick={handleMobileMenuClose}
+        component={Link}
+        to="/admin/dashboard/addAdmin"
+      >
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <PersonAddAltIcon />
         </IconButton>
-        <p>Announcements</p>
+        <p>Add Admin</p>
       </MenuItem>
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <AttachEmailIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-
-      <MenuItem>
+      <MenuItem
+        onClick={() =>
+          fetcher.submit({}, { method: "post", action: "/admin/dashboard" })
+        }
+      >
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -131,27 +150,6 @@ export default function AdminAppBar() {
 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              component={Link}
-              to="/admin/"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <NotificationsIcon />
-            </IconButton>
-            <IconButton
-              size="large"
-              component={Link}
-              to="/admin/notifications"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <AttachEmailIcon />
-              </Badge>
-            </IconButton>
-
             <IconButton
               size="large"
               edge="end"

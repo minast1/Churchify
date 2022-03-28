@@ -40,13 +40,13 @@ export const adminlogin = async (credentials:Credentials) => {
     });
     
 }
+*/
 
-type memberFormData = Omit<User, "id"|"avatar">
-export const register = async (formData: memberFormData) => {
-    const emailExists = await confirmEmailExists(formData.email);
+export const registerAdmin = async (formData: Omit<User, "id">) => {
+   /* const emailExists = await confirmEmailExists(formData.email);
     if (emailExists) {
         throw new Error("This email already exists")
-    }
+    }*/
      const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const hash = bcrypt.hashSync(formData.password, salt);
@@ -57,9 +57,9 @@ export const register = async (formData: memberFormData) => {
             password: hash,
             denomination: formData.denomination,
             role: formData.role,
-            avatar: null
+            avatar: formData.avatar != null ? formData.avatar : undefined 
         }
     });
     const { password, ...rest } = user;
     return rest
-}*/
+}

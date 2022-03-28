@@ -4,7 +4,6 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import { useMediaQuery, useTheme } from "@mui/material";
@@ -130,20 +129,6 @@ const DashboardIndex = () => {
             Submit Announcement
           </Button>
         </CardActions>
-      </Card>
-      <Card sx={{ mb: 10 }}>
-        <CardHeader
-          title={
-            <Box display="flex" alignItems="center">
-              <Typography variant="h5" sx={{ mt: 2, mr: 1 }}>
-                Student Attendance Statistics
-              </Typography>
-            </Box>
-          }
-          subheader="Lectures Conducted 67"
-        />
-
-        <CardContent sx={{ borderTop: "1px solid lightgray" }}></CardContent>
       </Card>
     </Container>
   );
