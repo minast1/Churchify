@@ -19,7 +19,8 @@ try {
         app = getApps().length === 0 ?
             initializeApp({
                 credential: applicationDefault(),
-                storageBucket: process.env.FIREBASE_STORAGE_BUCKET
+                storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+                projectId: process.env.FIREBASE_PROJECT_ID
             }) : getApp();
         }
         
