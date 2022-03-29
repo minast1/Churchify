@@ -74,14 +74,12 @@ const AdminSignIn = () => {
 
           <SubmitButton title="Sign In" formId="admin_signIn" />
 
-          <Grid container>
+          <Grid container direction="column">
             <Grid item xs></Grid>
+
             <Grid item>
-              <Link
-                to="/admin/register"
-                style={{ color: "blue", fontSize: 13 }}
-              >
-                {"Don't have an account? Sign Up"}
+              <Link to="/" style={{ color: "blue", fontSize: 13 }}>
+                Member SignIn
               </Link>
             </Grid>
           </Grid>

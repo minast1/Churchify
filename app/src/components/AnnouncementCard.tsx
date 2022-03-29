@@ -6,10 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { Divider } from "@mui/material";
-import CardActions from "@mui/material/CardActions";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 import IconButton from "@mui/material/IconButton";
 import { Denomination } from "@prisma/client";
 
@@ -18,7 +15,7 @@ type AppProps = {
   created: string | Date;
   postedBy: string;
   denomination: Denomination;
-  image?: string;
+  image: string;
   avatar: string | null;
   view: Boolean;
 };
@@ -31,6 +28,7 @@ const AnnouncementCard = ({
   denomination,
   avatar,
 }: AppProps) => {
+  //console.log(image);
   return (
     <Card elevation={0} square>
       <CardHeader
@@ -55,11 +53,11 @@ const AnnouncementCard = ({
         }
         subheader={created}
       />
-      {image && (
+      {image != "undefined" && (
         <CardMedia
           component="img"
           height={view ? 190 : 300}
-          image={image}
+          src={image}
           alt="Paella dish"
         />
       )}

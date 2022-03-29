@@ -7,7 +7,7 @@ export const addAnnouncement = async (formData: Omit<Announcement, "id"| "create
     const data = await db.announcement.create({
         data: {
             body: formData.body,
-            image: formData.image != null ? formData.image : undefined,
+            image: formData.image ? formData.image : undefined ,
             creatorId: formData.creatorId,
             category: formData.category
             

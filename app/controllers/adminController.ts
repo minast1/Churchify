@@ -57,7 +57,7 @@ export const registerAdmin = async (formData: Omit<User, "id">) => {
             password: hash,
             denomination: formData.denomination,
             role: formData.role,
-            avatar: formData.avatar != null ? formData.avatar : undefined 
+            avatar: formData.avatar && formData.avatar
         }
     });
     const { password, ...rest } = user;

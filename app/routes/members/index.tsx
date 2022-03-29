@@ -22,7 +22,6 @@ const Index = () => {
   const loaderData = useLoaderData<PaginatedAnnouncements>();
   const { data, count } = loaderData;
 
-  ///console.log(loaderData.announcements.count);
   const mobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Container

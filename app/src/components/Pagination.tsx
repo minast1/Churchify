@@ -25,7 +25,7 @@ const PaginationComponent = ({ total }: { total: number }) => {
         <PaginationItem
           sx={{ m: 1 }}
           component={Link}
-          prefetch="render"
+          prefetch="intent"
           to={`${location.pathname}${
             item.page === 1 ? "" : `?page=${item.page}`
           }`}
