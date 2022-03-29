@@ -1,9 +1,9 @@
-import { initializeApp, cert, applicationDefault, getApps, getApp} from "firebase-admin/app";
+import { initializeApp, cert, getApps, getApp} from "firebase-admin/app";
 import { getStorage } from "firebase-admin/storage";
  
 let app; 
 try {
-    if (process.env.NODE_ENV === 'development') {
+    
         app = getApps().length === 0 ?
             initializeApp({
                 credential: cert({
@@ -15,15 +15,7 @@ try {
                 }),
                 storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
             }) : getApp();
-    } else {
-        app = getApps().length === 0 ?
-            initializeApp({
-                credential: applicationDefault(),
-                storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-                projectId: process.env.FIREBASE_PROJECT_ID
-            }) : getApp();
-        }
-        
+       
     } catch (error) {
         console.log("Failed to initialize App: " + error)
     } 
