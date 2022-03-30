@@ -5906,11 +5906,6 @@ remix-auth@^3.1.0, remix-auth@^3.2.1:
     remix-utils "^2.2.0"
     uuid "^8.3.2"
 
-remix-firebase-storage-file-handler@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/remix-firebase-storage-file-handler/-/remix-firebase-storage-file-handler-1.0.0.tgz#4c5435ce3703ae26a5a11e810008da3b48368ca2"
-  integrity sha512-jBBzWuNk/QTbr8Ps2gkntTnJUVp7FBapQLr3opiB7TQhWRrfWs0A+6zcHS9ybLMaI3O2aWSSNZOsyVoiArieag==
-
 remix-utils@^2.2.0:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/remix-utils/-/remix-utils-2.10.0.tgz#b72a16cc2d736b5ffb1f78c55e9c7abb6116585f"

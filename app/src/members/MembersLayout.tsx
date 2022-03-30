@@ -68,7 +68,7 @@ export default function MembersDashboardLayout({
           component="main"
           sx={{
             backgroundColor: "#cfd8dc",
-            pt: mobileScreen ? 0 : 4,
+            pt: mobileScreen ? 0 : 0,
             minHeight: "100vh",
             //overflow: "inherit",
           }}
