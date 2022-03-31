@@ -31,8 +31,19 @@ model User {
   password      String
   denomination  Denomination
   announcements Announcement[]
+  messages      Message[]
   avatar        String?
   role          Role           @default(MEMBER)
+}
+
+model Message {
+  id           String       @id @default(cuid())
+  body         String       @db.Text
+  createdAt    DateTime     @default(now())
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  denomination Denomination
+  userId       String
+
 }
 
 enum Denomination {

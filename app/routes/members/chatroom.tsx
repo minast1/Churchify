@@ -5,8 +5,18 @@ import Container from "@mui/material/Container";
 import React from "react";
 import BottomAppBar from "~/src/members/BottomAppBar";
 import MessageBox from "~/src/members/MessageBox";
+import { ActionFunction, json, LoaderFunction, useLoaderData } from "remix";
+import { getSession } from "~/lib/session.server";
+import {
+  createMessage,
+  getDenominationMessages,
+  MessageWithUserType,
+} from "~/controllers/messageController";
+import { Denomination, User } from "@prisma/client";
 
 const ChatRoom = () => {
+  const messages = useLoaderData<MessageWithUserType>();
+
   return (
     <Box sx={{ minHeight: "100vh", background: 'url("/bg.jpg") repeat ' }}>
       <Container maxWidth="md" sx={{ pb: 2 }}>
@@ -16,21 +26,14 @@ const ChatRoom = () => {
           alignItems="flex-start"
           direction="column-reverse"
         >
-          <MessageBox
-            name="Luka@Toni"
-            time={new Date()}
-            message="To be or not to be ; That is the question"
-          />
-          <MessageBox
-            name="asampana@1234"
-            time={new Date()}
-            message="the height at which great  men reach today "
-          />
-          <MessageBox
-            name="nanaKote31"
-            time={new Date()}
-            message="an african proverb innit"
-          />
+          {messages?.map((message) => (
+            <MessageBox
+              key={message.id}
+              name={message.user.name}
+              time={message.createdAt}
+              message={message.body}
+            />
+          ))}
         </Stack>
       </Container>
       <BottomAppBar />
@@ -39,3 +42,21 @@ const ChatRoom = () => {
 };
 
 export default ChatRoom;
+
+export const loader: LoaderFunction = async ({ request }) => {
+  // If the user is already authenticated redirect to /dashboard directly
+  const session = await getSession(request.headers.get("Cookie"));
+  const user: Omit<User, "password"> = session.get("user");
+
+  const messages = await getDenominationMessages(user.denomination);
+  return json<MessageWithUserType>(messages);
+};
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const body = formData.get("message") as string;
+  const userId = formData.get("userId") as string;
+  const denomination = formData.get("denomination") as Denomination;
+
+  return await createMessage({ body, userId, denomination });
+};
