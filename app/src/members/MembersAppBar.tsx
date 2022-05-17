@@ -15,6 +15,7 @@ import Logout from "@mui/icons-material/Logout";
 import ForumIcon from "@mui/icons-material/Forum";
 import { Link, useFetcher } from "remix";
 import HomeIcon from "@mui/icons-material/Home";
+//import Button from "@mui/material/Button";
 //import { useRouteData } from "remix-utils";
 //import { User } from "@prisma/client";
 //import { AnnouncementWithCreator } from "~/controllers/announcementController";
@@ -157,6 +158,17 @@ export default function MembersAppBar() {
           >
             <MenuIcon />
           </IconButton>
+          <Link
+            style={{
+              color: "white",
+              fontSize: 16,
+              textDecoration: "none",
+              fontWeight: "bold",
+            }}
+            to="/members/about"
+          >
+            About Denominations
+          </Link>
           <Typography
             variant="h6"
             noWrap

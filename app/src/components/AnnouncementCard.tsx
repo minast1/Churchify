@@ -30,7 +30,7 @@ const AnnouncementCard = ({
 }: AppProps) => {
   //console.log(image);
   return (
-    <Card elevation={0} square>
+    <Card variant="outlined" square>
       <CardHeader
         avatar={
           <Avatar
