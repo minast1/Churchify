@@ -92,7 +92,12 @@ export default function MembersAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem component={Link} to="/members/" onClick={handleMobileMenuClose}>
+      <MenuItem
+        component={Link}
+        to="/members/"
+        onClick={handleMobileMenuClose}
+        prefetch="render"
+      >
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <HomeIcon />
         </IconButton>
@@ -101,6 +106,7 @@ export default function MembersAppBar() {
       <MenuItem
         onClick={handleMobileMenuClose}
         component={Link}
+        prefetch="render"
         to="/members/chatroom"
       >
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
@@ -112,6 +118,7 @@ export default function MembersAppBar() {
       </MenuItem>
       <MenuItem
         component={Link}
+        prefetch="render"
         to="/members/notifications"
         onClick={handleMobileMenuClose}
       >

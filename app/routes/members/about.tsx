@@ -17,7 +17,7 @@ const AboutPage = () => {
       <List sx={{ width: "100%", bgcolor: "background.paper" }}>
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            <Avatar alt="Remy Sharp" src="/GESAM/logo.jpg" />
           </ListItemAvatar>
           <ListItemText
             primary="GESAM"
@@ -50,7 +50,7 @@ const AboutPage = () => {
                   </ImageList>
                 </Box>
                 {
-                  <Typography sx={{ fontWeight: "bold" }}>
+                  <Typography>
                     The Global Evangelical Students and Associates’ Ministry
                     (GESAM) is the extension of the Global Evangelical Church in
                     the respective tertiary institutions and the second cycle
@@ -127,29 +127,3 @@ const AboutPage = () => {
 };
 
 export default AboutPage;
-const itemData = [
-  {
-    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    title: "Breakfast",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    title: "Burger",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
-    title: "Camera",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
-    title: "Coffee",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
-    title: "Hats",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1558642452-9d2a7deb7f62",
-    title: "Honey",
-  },
-];
