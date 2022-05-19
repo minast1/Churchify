@@ -2,7 +2,7 @@ import React from "react";
 import AnnouncementCard from "~/src/components/AnnouncementCard";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { format } from "date-fns";
 import List from "@mui/material/List";
 //import PageHeader from "~/src/members/PageHeader";
@@ -19,7 +19,8 @@ import {
 import { getSession } from "~/lib/session.server";
 import { Carousel } from "react-responsive-carousel";
 import carouselStyle from "~/styles/carousel.min.css";
-//import NoSsr from "@mui/material/NoSsr";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 const Index = () => {
   const theme = useTheme();
@@ -51,7 +52,22 @@ const Index = () => {
           />
         </div>
       </Carousel>
-
+      <Paper sx={{ my: 2, p: 2 }}>
+        <Alert severity="info">
+          <AlertTitle>Overview of PCU</AlertTitle>
+          <Typography>
+            We the people of God united as one body under the Professional
+            Christain Union at the University of Professional Studies, Accra
+            (UPSA), for the purpose of furthering the work of our Lord Jesus
+            Christ do hereby come up with this constitution for the purposes of
+            • Bringing under the umbrella of the union all registered
+            denominations on campus • Securing and preserving the principles of
+            the Christian faith • Providing for the orderly conduct of internal
+            affairs of members in the union in order to enhance interactions
+            among them.
+          </Typography>
+        </Alert>
+      </Paper>
       <List
         sx={{
           width: "100%",
@@ -59,6 +75,9 @@ const Index = () => {
           backgroundColor: "background.paper",
         }}
       >
+        <Typography align="center" variant="h6">
+          Announcements Board
+        </Typography>
         {data.length &&
           data.map((item) => (
             <AnnouncementCard

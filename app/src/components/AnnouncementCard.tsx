@@ -30,7 +30,7 @@ const AnnouncementCard = ({
 }: AppProps) => {
   //console.log(image);
   return (
-    <Card variant="outlined" square>
+    <Card variant="outlined">
       <CardHeader
         avatar={
           <Avatar
