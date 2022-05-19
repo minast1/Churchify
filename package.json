@@ -37,6 +37,7 @@
     "react-hot-toast": "^2.2.0",
     "react-material-file-upload": "^0.0.4",
     "react-material-ui-carousel": "^3.3.3",
+    "react-responsive-carousel": "^3.2.23",
     "remix": "^1.2.3",
     "remix-auth": "^3.2.1",
     "remix-auth-form": "^1.1.1",

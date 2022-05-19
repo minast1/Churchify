@@ -1,4 +1,3 @@
-import { Item } from "./../../components/Item";
 import React from "react";
 import AnnouncementCard from "~/src/components/AnnouncementCard";
 import Container from "@mui/material/Container";
@@ -8,7 +7,9 @@ import { format } from "date-fns";
 import List from "@mui/material/List";
 //import PageHeader from "~/src/members/PageHeader";
 import PaginationComponent from "~/src/components/Pagination";
-import { ActionFunction, json, LoaderFunction, useLoaderData } from "remix";
+import type { ActionFunction, LinksFunction, LoaderFunction } from "remix";
+import { json } from "remix";
+import { useLoaderData } from "@remix-run/react";
 import { authenticator } from "~/lib/auth.server";
 import {
   PaginatedAnnouncements,
@@ -16,50 +17,45 @@ import {
 } from "~/controllers/announcementController";
 //import { Announcement, User } from "@prisma/client";
 import { getSession } from "~/lib/session.server";
-import Carousel from "react-material-ui-carousel";
+import { Carousel } from "react-responsive-carousel";
+import carouselStyle from "~/styles/carousel.min.css";
+//import NoSsr from "@mui/material/NoSsr";
 
 const Index = () => {
   const theme = useTheme();
-
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const loaderData = useLoaderData<PaginatedAnnouncements>();
   const { data, count } = loaderData;
-  const items = [
-    {
-      name: "",
-      description: "",
-      image: "/main/img3.jpeg",
-    },
 
-    {
-      name: "",
-      description: "",
-      image: "/main/img7.jpeg",
-    },
-  ];
   const mobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Container
       maxWidth={mobileScreen ? false : "lg"}
       disableGutters={mobileScreen ? true : false}
+      sx={{ pt: 1 }}
     >
-      <Carousel
-        sx={{ mb: 1 }}
-        navButtonsAlwaysVisible={true}
-        indicators={false}
-      >
-        {items.map((item, i) => (
-          <Item
-            key={i}
-            name={item.name}
-            description={item.description}
-            image={item.image}
+      <Carousel infiniteLoop autoPlay showThumbs={false}>
+        <div>
+          <img
+            src="/main/img7.jpeg"
+            alt=""
+            style={{ height: isMobile ? 250 : 450, objectFit: "cover" }}
           />
-        ))}
+        </div>
+
+        <div>
+          <img
+            src="/main/img3.jpeg"
+            alt=""
+            style={{ height: isMobile ? 250 : 450, objectFit: "cover" }}
+          />
+        </div>
       </Carousel>
+
       <List
         sx={{
           width: "100%",
-          //boxShadow: 8,
+          boxShadow: 8,
           backgroundColor: "background.paper",
         }}
       >
@@ -116,4 +112,10 @@ export const action: ActionFunction = async ({ request }) => {
     return await authenticator.logout(request, { redirectTo: "/" });
   }
   return null;
+};
+
+export const links: LinksFunction = () => {
+  // `links` returns an array of objects whose
+  // properties map to the `<link />` component props
+  return [{ rel: "stylesheet", href: carouselStyle }];
 };

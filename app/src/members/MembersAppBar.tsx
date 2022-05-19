@@ -13,7 +13,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Logout from "@mui/icons-material/Logout";
 import ForumIcon from "@mui/icons-material/Forum";
-import { Link, useFetcher } from "remix";
+import { Link, useFetcher } from "@remix-run/react";
 import HomeIcon from "@mui/icons-material/Home";
 //import Button from "@mui/material/Button";
 //import { useRouteData } from "remix-utils";
