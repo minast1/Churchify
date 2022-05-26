@@ -120,21 +120,26 @@ const AboutPage = () => {
         <Divider variant="inset" component="li" />
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
-            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+            <Avatar alt="CASA" src="/casa.jpg" />
           </ListItemAvatar>
           <ListItemText
-            primary="Oui Oui"
+            primary="Christ Apostolic Students & Associates"
             secondary={
               <React.Fragment>
                 <Typography
-                  sx={{ display: "inline" }}
+                  //sx={{ display: "inline" }}
                   component="span"
-                  variant="body2"
-                  color="text.primary"
+                  //variant="body2"
+                  //color="text.primary"
                 >
-                  Sandra Adams
+                  Christ Apostolic Students and Associates (CASA UPSA) is a
+                  campus denomination of the Christ Apostolic Church
+                  international members. It's a great family with arms that
+                  accept everyone into it. Our weekly activities Monday Prayers
+                  Tuesday. Bible studies Sunday. Divine service Place of
+                  worship: beside the school clinic. CASA!! WITH A VISION!
+                  CASA!!! COME AND SEE! CASA!!! WITH A STRONG VISION!
                 </Typography>
-                {" — Do you have Paris recommendations? Have you ever…"}
               </React.Fragment>
             }
           />
